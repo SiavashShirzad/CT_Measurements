@@ -1,6 +1,6 @@
 protobuf==3.20.0
 numpy
-opencv_python
+opencv-python-headless
 pydicom
 streamlit
 tensorflow
