@@ -3,8 +3,6 @@ from tensorflow.keras.models import load_model
 import pydicom
 import numpy as np
 import cv2
-import SimpleITK as sitk
-
 st.title('Ehsan')
 
 st.header('Upload the DCM image')
