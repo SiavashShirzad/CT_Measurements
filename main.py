@@ -70,6 +70,6 @@ if file:
     image[d1[1]-1:d1[1]+1 , d1[0]-1:d1[0]+1] = red
     image[d2[1]-1:d2[1]+1 , d2[0]-1:d2[0]+1] = red  
     image[d3[1]-1:d3[1]+1 , d3[0]-1:d3[0]+1] = red
-    st.write('Right side: ' , np.abs((pred[0]*512).squeeze()[0] - (pred[1]*512).squeeze()[0])*sp[0])
-    st.write('Left side: ' , np.abs((pred[2]*512).squeeze()[0] - (pred[3]*512).squeeze()[0])*sp[0])
+    st.write('Right side: ' , np.abs((pred[0]*512).squeeze()[1] - (pred[1]*512).squeeze()[1])*sp[0])
+    st.write('Left side: ' , np.abs((pred[2]*512).squeeze()[1] - (pred[3]*512).squeeze()[1])*sp[0])
     st.image(image, use_column_width=True)
