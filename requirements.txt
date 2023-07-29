@@ -1,6 +1,6 @@
 numpy
 opencv_python
 pydicom
-streamlit
 tensorflow
-protobuf==3.19
+protobuf==3.20
+streamlit
