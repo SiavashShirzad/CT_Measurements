@@ -25,6 +25,14 @@ def window_image(img, window_center,window_width, intercept, slope, rescale=True
     
     return img
 
+def keros(m):
+    if m < 4:
+        return 'Keros Type 1'
+    elif m > 8:
+        return 'Keros Type 3'
+    else:
+        return 'Keros Type 2'
+
 def get_first_of_dicom_field_as_int(x):
     #get x[0] as in int is x is a 'pydicom.multival.MultiValue', otherwise get int(x)
     if type(x) == pydicom.multival.MultiValue:
@@ -70,6 +78,19 @@ if file:
     image[d1[1]-1:d1[1]+1 , d1[0]-1:d1[0]+1] = red
     image[d2[1]-1:d2[1]+1 , d2[0]-1:d2[0]+1] = red  
     image[d3[1]-1:d3[1]+1 , d3[0]-1:d3[0]+1] = red
-    st.write('Right side: ' , np.abs((pred[0]*512).squeeze()[1] - (pred[1]*512).squeeze()[1])*sp[0])
-    st.write('Left side: ' , np.abs((pred[2]*512).squeeze()[1] - (pred[3]*512).squeeze()[1])*sp[0])
+
+    r = int(np.abs((pred[0]*512).squeeze()[1] - (pred[1]*512).squeeze()[1])*sp[0]*100)/100
+    l = int(np.abs((pred[2]*512).squeeze()[1] - (pred[3]*512).squeeze()[1])*sp[0]*100)/100
+
+    kr = keros(r)
+    kl = keros(l)
+
+    if kr == kl:
+        s = 'Symmetrical'
+    else:
+        s = 'Asymmetrical'
+
+    st.write('Right side: ' , r, 'mm -  ', kr)
+    st.write('Left side: ' , l, 'mm - ', kl)
+    st.write(s)
     st.image(image, use_column_width=True)
