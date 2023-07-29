@@ -1,0 +1,7 @@
+numpy==1.25.1
+opencv_python==4.8.0.74
+pydicom==2.4.2
+SimpleITK==2.2.1
+SimpleITK==2.2.1
+streamlit==1.25.0
+tensorflow==2.10.1
