@@ -39,36 +39,37 @@ def get_windowing(data):
                     data[('0028','1053')].value] #slope
     return [get_first_of_dicom_field_as_int(x) for x in dicom_fields]
 
-ds = pydicom.dcmread(file, force=True)
-image = ds.pixel_array
-window_center , window_width, intercept, slope = get_windowing(ds)
-image = window_image(image, window_center, window_width, intercept, slope)
-# image = (image*65535).astype(np.uint16)
-image = np.stack([image,image,image], axis=-1)
-image = cv2.resize(image, (224,224))
-print(image.shape)
-print(image.mean())
-image = image.reshape(1,224,224,3)
-pred = model.predict(image)
+if file:
+    ds = pydicom.dcmread(file, force=True)
+    image = ds.pixel_array
+    window_center , window_width, intercept, slope = get_windowing(ds)
+    image = window_image(image, window_center, window_width, intercept, slope)
+    # image = (image*65535).astype(np.uint16)
+    image = np.stack([image,image,image], axis=-1)
+    image = cv2.resize(image, (224,224))
+    print(image.shape)
+    print(image.mean())
+    image = image.reshape(1,224,224,3)
+    pred = model.predict(image)
 
-sp = ds.PixelSpacing
+    sp = ds.PixelSpacing
 
 
-d = (pred[0]*224).astype(np.int16).squeeze()
-d1 = (pred[1]*224).astype(np.int16).squeeze()
-d2 = (pred[2]*224).astype(np.int16).squeeze()
-d3 = (pred[3]*224).astype(np.int16).squeeze()
+    d = (pred[0]*224).astype(np.int16).squeeze()
+    d1 = (pred[1]*224).astype(np.int16).squeeze()
+    d2 = (pred[2]*224).astype(np.int16).squeeze()
+    d3 = (pred[3]*224).astype(np.int16).squeeze()
 
-red = [1, 0 , 0]
-image = image[0]
+    red = [1, 0 , 0]
+    image = image[0]
 
-# print('Right', ((pred[0]*512).astype(np.int16).squeeze()[0] - (pred[1]*512).astype(np.int16).squeeze()[0]))
-# print('Left', ((pred[2]*512).astype(np.int16).squeeze()[0] - (pred[3]*512).astype(np.int16).squeeze()[0])*sp)
+    # print('Right', ((pred[0]*512).astype(np.int16).squeeze()[0] - (pred[1]*512).astype(np.int16).squeeze()[0]))
+    # print('Left', ((pred[2]*512).astype(np.int16).squeeze()[0] - (pred[3]*512).astype(np.int16).squeeze()[0])*sp)
 
-image[d[1]-1:d[1]+1 , d[0]-1:d[0]+1] = red
-image[d1[1]-1:d1[1]+1 , d1[0]-1:d1[0]+1] = red
-image[d2[1]-1:d2[1]+1 , d2[0]-1:d2[0]+1] = red  
-image[d3[1]-1:d3[1]+1 , d3[0]-1:d3[0]+1] = red
-st.write('Right side: ' , np.abs((pred[0]*512).squeeze()[0] - (pred[1]*512).squeeze()[0])*sp[0])
-st.write('Left side: ' , np.abs((pred[2]*512).squeeze()[0] - (pred[3]*512).squeeze()[0])*sp[0])
-st.image(image, use_column_width=True)
+    image[d[1]-1:d[1]+1 , d[0]-1:d[0]+1] = red
+    image[d1[1]-1:d1[1]+1 , d1[0]-1:d1[0]+1] = red
+    image[d2[1]-1:d2[1]+1 , d2[0]-1:d2[0]+1] = red  
+    image[d3[1]-1:d3[1]+1 , d3[0]-1:d3[0]+1] = red
+    st.write('Right side: ' , np.abs((pred[0]*512).squeeze()[0] - (pred[1]*512).squeeze()[0])*sp[0])
+    st.write('Left side: ' , np.abs((pred[2]*512).squeeze()[0] - (pred[3]*512).squeeze()[0])*sp[0])
+    st.image(image, use_column_width=True)

@@ -1,6 +1,6 @@
-numpy
-opencv_python
-pydicom
-tensorflow
 protobuf==3.20.0
-streamlit
+numpy==1.25.1
+opencv_python==4.8.0.74
+pydicom==2.4.2
+streamlit==1.25.0
+tensorflow==2.10.1
