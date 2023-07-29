@@ -3,3 +3,4 @@ opencv_python
 pydicom
 streamlit
 tensorflow
+protobuf==3.19
