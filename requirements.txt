@@ -7,3 +7,4 @@ tensorflow
 gdcm
 pylibjpeg
 pylibjpeg-libjpeg
+stqdm
