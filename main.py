@@ -7,7 +7,7 @@ import numpy as np
 import cv2
 from stqdm import stqdm
 
-st.title('Keros Typing')
+st.title('Keros Typing AI')
 
 st.header('Upload the DCM image folder')
 
@@ -113,6 +113,8 @@ if files:
 
     r = int(np.abs((final_results_max[0]*512).squeeze()[1] - (final_results_max[1]*512).squeeze()[1])*sp[0]*100)/100
     l = int(np.abs((final_results_max[2]*512).squeeze()[1] - (final_results_max[3]*512).squeeze()[1])*sp[0]*100)/100
+    b = int(np.abs((final_results_max[1]*512).squeeze()[0] - (final_results_max[3]*512).squeeze()[0])*sp[0]*100)/100
+
 
     kr = keros(r)
     kl = keros(l)
@@ -124,6 +126,8 @@ if files:
 
     st.write('Right side: ' , r, 'mm -  ', kr)
     st.write('Left side: ' , l, 'mm - ', kl)
+    st.write('Left to Right Distance: ' , b, 'mm')
+
     st.write(s)
     st.image(final_image_max[::-1, :], use_column_width=True)
 
